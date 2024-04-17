@@ -12,7 +12,7 @@ class FrutasSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 class EntregaSerializer(serializers.ModelSerializer):
-   # itens = serializers.PrimaryKeyRelatedField(queryset=Item.objects.all())
+    itens = serializers.PrimaryKeyRelatedField(queryset=Item.objects.all())
     pagamento = serializers.PrimaryKeyRelatedField(queryset=Pagamento.objects.all())
 
     class Meta:
