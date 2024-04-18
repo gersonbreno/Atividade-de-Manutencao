@@ -38,4 +38,4 @@ class Item(models.Model):
     quantidade_de_item = models.IntegerField()
     preco_unitario_do_item = models.DecimalField(max_digits=6, decimal_places=2)
     def __str__(self):
-        return  f"{self.entrega}"
+        return  f"{self.nome_do_item}"
