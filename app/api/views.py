@@ -1,18 +1,18 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from app.models import Verduras, Frutas, Entrega, Pagamento, Item
-from app.api.serializers import VerdurasSerializer, FrutasSerializer, EntregaSerializer, PagamentoSerializer, ItemSerializer
+from app.api.serializers import VerdurasSerializer, FrutasSerializer, EntregaSerializer,PagamentoSerializer, ItemSerializer
 
-class MetricaCalculator:
+class MetricCalculation:
     @staticmethod
-    def calculate_metrica(queryset):
+    def calculate_metric(queryset):
         return queryset.count() * 10 + 5
 
-class MetricaMixin:
+class MetricCalculatorMixin:
     def get_metrica(self, queryset):
-        return MetricaCalculator.calculate_metrica(queryset)
+        return MetricCalculation.calculate_metric(queryset)
 
-class VerdurasViewSet(viewsets.ModelViewSet, MetricaMixin):
+class VerdurasViewSet(viewsets.ModelViewSet, MetricCalculatorMixin):
     queryset = Verduras.objects.all()
     serializer_class = VerdurasSerializer
 
@@ -28,7 +28,7 @@ class FrutasViewSet(viewsets.ModelViewSet):
     def update(self, request, *args, **kwargs):
         response = super().update(request, *args, **kwargs)
         for fruta in self.queryset:
-            fruta.qntdDspnvl -= 1
+            fruta.quantidade_disponivel -= 1
             fruta.save()
         return response
 
@@ -38,7 +38,8 @@ class EntregaViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         response = super().list(request, *args, **kwargs)
-        entrega_info = [{'nome_cliente': entrega.nome_do_cliente, 'endereco': entrega.endereco_de_entrega} for entrega in self.queryset]
+        entrega_info = [{'nome_cliente': entrega.nome_do_cliente, 'endereco': entrega.endereco_de_entrega} 
+        for entrega in self.queryset]
         response.data = entrega_info
         return response
 

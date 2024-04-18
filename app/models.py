@@ -1,5 +1,5 @@
 from django.db import models
-# bejo que nomes esta sem sentido ou sej primeiro passo ajsurta isso
+
 class Produto(models.Model):
     nome_do_produto = models.CharField(max_length=100)
     preco_unitario = models.DecimalField(max_digits=6, decimal_places=2)
@@ -7,7 +7,7 @@ class Produto(models.Model):
     class Meta:
         abstract = True
     def __str__(self):
-        return self.nome_da_verdura
+        return self.nome_do_produto
 class Verduras(Produto):
     class Meta:
         verbose_name_plural = "Verduras"
@@ -34,8 +34,8 @@ class Pagamento(models.Model):
 
 class Item(models.Model):
     entrega = models.ForeignKey(Entrega, on_delete=models.CASCADE, related_name="itens")
-    nome_do_produto = models.CharField(max_length=100)
-    quantidade = models.IntegerField()
-    preco_unitario = models.DecimalField(max_digits=6, decimal_places=2)
+    nome_do_item = models.CharField(max_length=100)
+    quantidade_de_item = models.IntegerField()
+    preco_unitario_do_item = models.DecimalField(max_digits=6, decimal_places=2)
     def __str__(self):
         return  f"{self.entrega}"
